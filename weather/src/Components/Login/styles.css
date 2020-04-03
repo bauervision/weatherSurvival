@@ -1,0 +1,29 @@
+.emailInputError {
+    border-left: solid 2px red;
+    border-right: solid 2px red;
+    background-color: rgb(255, 240, 240);
+  }
+  
+  input {
+    padding: 1em;
+    border-radius: 1em;
+    border: solid 1px grey;
+  }
+  
+  label {
+    font-size: 0.8em;
+    color: grey;
+    text-align: left;
+  }
+  
+  form {
+    background-color: rgba(240, 248, 255, 0.4);
+    display: flex;
+    flex-direction: col;
+    margin: 2em;
+    border: none;
+    border-radius: 1em;
+    justify-content: center;
+    padding: 1em;
+  }
+  

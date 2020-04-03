@@ -1,0 +1,36 @@
+.flex{
+    display: flex;
+}
+.col{
+    flex-direction: column;
+}
+.justifyCenter{
+    justify-content: center;
+}
+.justifyBetween{
+    justify-content: space-between;
+}
+.alignItems{
+    align-items: center;
+}
+.textCenter{
+    text-align: center;
+}
+.textRight{
+    text-align: right;
+}
+.textLeft{
+    text-align: left;
+}
+.border{
+    border: solid 1px grey;
+}
+.round{
+    border-radius: 1em;
+}
+.shadowsFont{
+    font-family: 'Shadows Into Light', cursive;
+}
+.smallFont{
+    font-size: 0.5em;
+}

@@ -1,0 +1,10 @@
+export { default as Broken } from "./broken.jpg";
+export { default as ClearSky } from "./clearSky.jpg";
+export { default as Few } from "./few.jpg";
+export { default as Mist } from "./mist.jpg";
+export { default as Overcast } from "./overcast.jpg";
+export { default as Rain } from "./rain.jpg";
+export { default as Scattered } from "./scattered.jpg";
+export { default as Showers } from "./showers.jpg";
+export { default as Snow } from "./snow.jpg";
+export { default as ThunderStorm } from "./thunderstorm.jpg";
