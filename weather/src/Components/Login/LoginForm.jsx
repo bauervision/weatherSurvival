@@ -3,7 +3,9 @@ import BasicInput from "./BasicInput";
 import PasswordInput from "./PasswordInput";
 import "./styles.css";
 
-const LoginForm = ({ registerUser, handleLogin }) => {
+import { RegisterUser, LoginUserEmailPassword } from "../../Helpers/auth";
+
+const LoginForm = ({ handleLogin }) => {
     const [existingUser, setExistingUser] = useState(true);
     const [emailError, setEmailError] = useState(true);
     const [passwordError, setPasswordError] = useState(true);
@@ -22,7 +24,7 @@ const LoginForm = ({ registerUser, handleLogin }) => {
 
     const handleSubmitLogin = useCallback(async () => {
         setLoadingUser(true);
-        const status = await registerUser(email, password);
+        const status = await LoginUserEmailPassword(email, password);
 
         // if we didn't get a user back, then there was an error
         if (!status.user) {
@@ -33,7 +35,7 @@ const LoginForm = ({ registerUser, handleLogin }) => {
             // otherwise we had a successful login
             handleLogin(status.user);
         }
-    }, [email, handleLogin, password, registerUser]);
+    }, [email, handleLogin, password]);
 
     useEffect(() => {
         if (loadingUser) {
@@ -55,7 +57,7 @@ const LoginForm = ({ registerUser, handleLogin }) => {
             name
         };
 
-        const status = await registerUser(email, password);
+        const status = await RegisterUser(email, password);
 
         if (!status.user) {
             const errorMessage = status.error.message;
@@ -127,8 +129,8 @@ const LoginForm = ({ registerUser, handleLogin }) => {
                                 disabled={emailError || passwordError}
                                 style={{ width: 200, padding: 10, margin: "1em" }}
                             >
-                                Register
-              </button>
+                                Login
+                            </button>
                         </div>
                         {loginError && <div>{loginError}</div>}
                     </div>

@@ -6,7 +6,7 @@ import "./styles.scss";
 import firebase from "./config";
 
 import LoginForm from "./Components/Login/LoginForm";
-
+import Header from "./Components/Header/Header";
 import Background from "./Components/Background";
 
 // city codes for intial region selections
@@ -21,6 +21,8 @@ const regions = [
 ]
 
 export default function App() {
+  const [user, setUser] = useState(null);
+
   const [weatherData, setWeather] = useState(null);
   const [region, setRegion] = useState(null);
 
@@ -57,18 +59,26 @@ export default function App() {
 
   };
 
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    console.log(userData)
+  }
   return (
     <div className="App">
 
-      <div className="flex justifyBetween">
-
-        <div className="temp shadowsFont">{Math.round(weatherData?.main.temp)}<span className="smallFont">&#8457;</span></div>
-        <div>{weatherData?.name}</div>
-      </div>
 
 
 
-      <LoginForm />
+
+      {!user ? (
+        <LoginForm handleLogin={handleLogin} />
+      ) : (
+          <>
+            <Header weatherData={weatherData} />
+          </>
+        )}
+
 
       <Background data={weatherData?.weather[0]} />
     </div>
