@@ -22,6 +22,7 @@ const LoginForm = ({ handleLogin }) => {
         setLoadingUser(true);
     };
 
+    // existing user logged in
     const handleSubmitLogin = useCallback(async () => {
         setLoadingUser(true);
         const status = await LoginUserEmailPassword(email, password);
@@ -53,7 +54,6 @@ const LoginForm = ({ handleLogin }) => {
 
         const newUserData = {
             email,
-            password,
             name
         };
 
@@ -87,6 +87,7 @@ const LoginForm = ({ handleLogin }) => {
 
     const handleUserTypeSwitch = () => {
         setExistingUser(!existingUser);
+        setLoginError(null);
     };
 
     return (
@@ -132,7 +133,7 @@ const LoginForm = ({ handleLogin }) => {
                                 Login
                             </button>
                         </div>
-                        {loginError && <div>{loginError}</div>}
+                        {loginError && <div style={{ color: 'red' }}>{loginError}</div>}
                     </div>
                 </form>
             ) : (
@@ -175,7 +176,7 @@ const LoginForm = ({ handleLogin }) => {
                                     Register
                </button>
                             </div>
-                            {loginError && <div>{loginError}</div>}
+                            {loginError && <div style={{ color: 'red' }}>{loginError}</div>}
                         </div>
                     </form>
                 )}

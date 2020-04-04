@@ -2,8 +2,15 @@
     position: fixed;
     top: 0;
     left: 0;
+    right:0;
     width: 100%;
-    background-color: green;
+    background: rgb(0,57,120);
+    background: linear-gradient(90deg, rgba(0,57,120,1) 5%, rgba(220,229,238,0) 10%, rgba(231,237,244,0) 90%, rgba(0,57,120,1) 95%);
     color: white;
-    padding: 1em;
+    padding: 0.5em;
+}
+
+.rightSide{
+    position: fixed;
+    right: 20px;
 }

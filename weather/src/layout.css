@@ -31,6 +31,16 @@
 .shadowsFont{
     font-family: 'Shadows Into Light', cursive;
 }
+.kalamFont{
+    font-family: 'Kalam', cursive;
+}
+
+.largeFont{
+    font-size: 3em;
+}
 .smallFont{
     font-size: 0.5em;
+}
+.white{
+    color:white;
 }

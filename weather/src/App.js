@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from 'moment';
 
 import "./layout.css";
 import "./styles.scss";
@@ -7,46 +8,24 @@ import firebase from "./config";
 
 import LoginForm from "./Components/Login/LoginForm";
 import Header from "./Components/Header/Header";
-import Background from "./Components/Background";
+import Background from "./Components/Background/Background";
+import { GenerateStoryLine } from "./Helpers/GenerateStory";
+import { GenerateRegion } from "./Helpers/GenerateRegions";
 
-// city codes for intial region selections
-const regions = [
-  { city: 'Tumbes', code: '3691148' },
-  { city: 'Gallegos', code: '3838859' },
-  { city: 'Kitimat', code: '5993072' },
-  { city: 'Eastport', code: '5116149' },
-  { city: 'Woodward', code: '4556050' },
-  { city: 'Lae', code: '2092740' },
-  { city: 'Stockholm', code: '2673730' }
-]
+
 
 export default function App() {
+  // do we have a valid user logged in?
   const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   const [weatherData, setWeather] = useState(null);
   const [region, setRegion] = useState(null);
 
-  // get random region on mount, and then get its weather
-  useEffect(() => {
-    getWeather();
 
-  }, []);
-
-
-  const getWeather = async () => {
-
-    const db = firebase.firestore();
-    db.collection("users").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-      });
-    });
+  const getWeather = async (cityId) => {
 
     try {
-
-      setRegion(regions[Math.floor(Math.random() * regions.length)]);
-      const cityId = regions[Math.floor(Math.random() * regions.length)].code;
-
       const call = await fetch(
         `http://api.openweathermap.org/data/2.5/weather?id=${cityId}&units=imperial&APPID=5a7e69f03ea555885635187a0bbb2049`
       );
@@ -57,30 +36,102 @@ export default function App() {
       console.error(err)
     }
 
+
   };
 
 
-  const handleLogin = (userData) => {
+  // when user logs in, we need to create their data account, if they are new
+  const handleLogin = (userData, newUserData) => {
+
+    const db = firebase.firestore();
+
+    //console.log(userData, newUserData)
+    if (newUserData) {
+      // setup essential account data
+      const newAccount = {
+        id: userData.uid,
+        name: newUserData.name,
+        lastSignIn: Number(userData.metadata.a),
+        // now generate storyline data
+        storyLine: GenerateStoryLine(),
+        storyRegion: GenerateRegion(),
+        daysAlive: 0,
+
+      }
+
+      // save this to DB
+      db.collection("users").doc(userData.uid).set(newAccount)
+        .then(function () {
+          console.log("Document successfully written!");
+          // and set state
+          setUserData(newAccount);
+          getWeather(newAccount.storyRegion.code);
+
+        })
+        .catch(function (error) {
+          console.error("Error writing document: ", error);
+        });
+
+    } else {
+      const updatedData = {};
+      // existing user, grab their data
+      db.collection("users").doc(userData.uid).get().then((snap) => {
+        const thisUser = snap.data();
+        if (thisUser) {
+          setUserData(thisUser);
+          getWeather(thisUser.storyRegion.code);
+          // update last login
+          updatedData = { ...thisUser, lastSignIn: moment().toDate().getTime() }
+        }
+      });
+
+      console.log(updatedData)
+      // db.collection("users").doc(userData.uid).set(updatedData)
+      //   .then(function () {
+      //     console.log("Document successfully updated!");
+      //   })
+      //   .catch(function (error) {
+      //     console.error("Error writing document: ", error);
+      //   });
+
+
+
+    }
     setUser(userData);
-    console.log(userData)
+
+
   }
+
+
   return (
     <div className="App">
 
-
-
-
-
+      {/* User not logged in yet so display original setup */}
       {!user ? (
-        <LoginForm handleLogin={handleLogin} />
+        <>
+          <Background data="startNight" />
+          <LoginForm handleLogin={handleLogin} />
+          <h1 className="kalamFont white largeFont">Weather:Survival</h1>
+          <p className="shadowsFont white">Do you have the skills to stay alive until rescue?</p>
+        </>
       ) : (
+          // User now logged in
           <>
-            <Header weatherData={weatherData} />
+            <Background data={weatherData?.weather[0]} />
+            <Header weatherData={weatherData} userData={userData} />
+
+            {/* Make sure we have valid userData */}
+            {userData && (
+              <div>
+                <div className="kalamFont white largeFont">{userData.storyLine}</div>
+                <div>Last Sign-in:{moment(userData.lastSignIn).fromNow()}</div>
+              </div>
+            )}
           </>
         )}
 
 
-      <Background data={weatherData?.weather[0]} />
-    </div>
+
+    </div >
   );
 }

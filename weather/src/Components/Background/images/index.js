@@ -8,3 +8,5 @@ export { default as Scattered } from "./scattered.jpg";
 export { default as Showers } from "./showers.jpg";
 export { default as Snow } from "./snow.jpg";
 export { default as ThunderStorm } from "./thunderstorm.jpg";
+export { default as Drizzle } from "./drizzle.jpg";
+export { default as StartNight } from "./startNight.jpg";
