@@ -1,0 +1,22 @@
+
+.decision{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+    width: 50%;
+    color: white;
+    padding: 1em;
+    
+}
+
+.shadowed{
+    text-shadow: 2px 2px 2px black;
+}
+
+select{
+    padding: 1em;
+    margin:0.5em;
+    border-radius: 0.5em;
+}

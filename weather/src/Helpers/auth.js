@@ -1,8 +1,8 @@
 import firebase from "../config";
 
+
 export const SignUserOut = () => {
-    firebase.auth
-        .signOut()
+    firebase.auth().signOut()
         .then(() => {
             return true;
         })

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import BasicInput from "./BasicInput";
 import PasswordInput from "./PasswordInput";
+import Loader from "../Loader/Loader";
 import "./styles.css";
 
 import { RegisterUser, LoginUserEmailPassword } from "../../Helpers/auth";
@@ -125,13 +126,18 @@ const LoginForm = ({ handleLogin }) => {
                                 error={passwordError}
                             />
 
-                            <button
-                                type="submit"
-                                disabled={emailError || passwordError}
-                                style={{ width: 200, padding: 10, margin: "1em" }}
-                            >
-                                Login
-                            </button>
+                            {!loadingUser ? (
+                                <button
+                                    type="submit"
+                                    disabled={emailError || passwordError}
+                                    style={{ width: 200, padding: 10, margin: "1em" }}
+                                >
+                                    Login
+                                </button>
+                            ) : (
+                                    <Loader text="Logging you back in..." />
+                                )}
+
                         </div>
                         {loginError && <div style={{ color: 'red' }}>{loginError}</div>}
                     </div>
@@ -167,20 +173,25 @@ const LoginForm = ({ handleLogin }) => {
                                     passwordType={passwordType}
                                     error={passwordError}
                                 />
+                                {!loadingUser ? (
+                                    <button
+                                        type="submit"
+                                        disabled={emailError || passwordError}
+                                        style={{ width: 200, padding: 10, margin: "1em" }}
+                                    >
+                                        Register
+                                    </button>
+                                ) : (
+                                        <Loader text="Preparing your world..." />
+                                    )}
 
-                                <button
-                                    type="submit"
-                                    disabled={emailError || passwordError}
-                                    style={{ width: 200, padding: 10, margin: "1em" }}
-                                >
-                                    Register
-               </button>
                             </div>
                             {loginError && <div style={{ color: 'red' }}>{loginError}</div>}
                         </div>
                     </form>
                 )}
 
+            {/* Switch to a different type of login? */}
             <button
                 type="button"
                 onClick={handleUserTypeSwitch}

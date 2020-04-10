@@ -3,6 +3,13 @@
     text-align: center;
   }
 
+  h1{
+    font-family: 'Shadows Into Light', cursive;
+  }
+  h2{
+    font-family: 'Kalam', cursive;
+  }
+
 .backgroundImg{
     background-size: cover;
       /* Set rules to fill background */
@@ -25,4 +32,23 @@
 }
 p{
   font-size: 1.5em;
+}
+
+.rotate{
+  z-index: -1;
+  animation: rotation 7s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-359deg);
+  }
+}
+
+
+.filter-white{
+  filter: invert(100%) ; //invert black to white
 }

@@ -64,7 +64,8 @@ const Background = ({ data }) => {
         }
     }
 
-    return (data ? <img src={getCorrectImage()} alt="background" className="backgroundImg" /> : null
+
+    return (data ? <img src={getCorrectImage()} alt="background" className="backgroundImg" /> : <img src={images.StartNight} alt="background" className="backgroundImg" />
     )
 };
 export default Background;
